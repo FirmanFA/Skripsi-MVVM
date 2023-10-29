@@ -1,7 +1,7 @@
-package com.skripsi.mvvm.data.api
+package com.skripsi.mvp.data.api
 
-import com.skripsi.mvvm.data.api.model.GetNewsResponse
-import com.skripsi.mvvm.domain.Resource
+import com.skripsi.mvp.data.api.model.GetNewsResponse
+import com.skripsi.mvp.domain.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapLatest
@@ -19,9 +19,9 @@ class RemoteDataSource(
         }
     }
 
-    fun latestNews(source: String) = flow {
+    val latestNews = flow {
         while (true){
-            val latestNews = apiService.latestCnnNews(newsSource = source)
+            val latestNews = apiService.latestCnnNews()
             emit(Resource.Success(latestNews))
             delay(30000)
         }

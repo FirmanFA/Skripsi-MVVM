@@ -1,4 +1,4 @@
-package com.example.mvp
+package com.skripsi.mvp
 
 import org.junit.Test
 

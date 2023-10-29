@@ -10,6 +10,6 @@ import retrofit2.Response
 class GetLatestNewsUseCase(private val repository: MainRepository) : GetLatestNews() {
 
     override fun execute(params: String?): Flow<Resource<Response<GetNewsResponse>>> =
-        repository.getLatestNews()
+        repository.getLatestNews(params ?: "cnn")
 
 }

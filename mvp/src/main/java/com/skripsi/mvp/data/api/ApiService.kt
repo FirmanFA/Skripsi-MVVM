@@ -1,12 +1,11 @@
-package com.skripsi.mvvm.data.api
+package com.skripsi.mvp.data.api
 
-import com.skripsi.mvvm.data.api.model.DetailMovieResponse
-import com.skripsi.mvvm.data.api.model.GetNewsResponse
-import com.skripsi.mvvm.data.api.model.MovieResponse
+import com.skripsi.mvp.data.api.model.DetailMovieResponse
+import com.skripsi.mvp.data.api.model.GetNewsResponse
+import com.skripsi.mvp.data.api.model.MovieResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiService {
 
@@ -28,11 +27,7 @@ interface ApiService {
     @GET("movie/{movieId}/similar")
     suspend fun getSimilarMovie(@Path("movieId") movieId: Int): Response<MovieResponse>
 
-    @GET("everything")
-    suspend fun latestCnnNews(
-        @Query("sources") newsSource: String,
-        @Query("pageSize") pageSize: String? = "10",
-        @Query("apiKey") key: String? = "eaf426a2899140b582bc50f9a66ec49a",
-    ): Response<GetNewsResponse>
+    @GET("everything?sources=cnn&pageSize=1&apiKey=eaf426a2899140b582bc50f9a66ec49a")
+    suspend fun latestCnnNews(): Response<GetNewsResponse>
 
 }

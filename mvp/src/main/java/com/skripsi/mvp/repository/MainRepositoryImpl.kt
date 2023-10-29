@@ -1,8 +1,8 @@
-package com.skripsi.mvvm.repository
+package com.skripsi.mvp.repository
 
-import com.skripsi.mvvm.data.api.RemoteDataSource
+import com.skripsi.mvp.data.api.RemoteDataSource
 import kotlinx.coroutines.flow.flow
-import com.skripsi.mvvm.domain.Resource
+import com.skripsi.mvp.domain.Resource
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
 
@@ -30,6 +30,6 @@ class MainRepositoryImpl(private val remoteDataSource: RemoteDataSource) : MainR
                 ))
             }
 
-    override fun getLatestNews(source: String): NewsFlow = remoteDataSource.latestNews(source)
+    override fun getLatestNews(): NewsFlow = remoteDataSource.latestNews
 
 }

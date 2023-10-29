@@ -1,6 +1,5 @@
 package com.skripsi.mvvm.ui.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skripsi.mvvm.data.api.model.GetNewsResponse
@@ -8,38 +7,47 @@ import com.skripsi.mvvm.data.api.model.MovieResponse
 import com.skripsi.mvvm.domain.Resource
 import com.skripsi.mvvm.domain.usecase.GetDiscoveryMovies
 import com.skripsi.mvvm.domain.usecase.GetLatestNews
-import com.skripsi.mvvm.ui.model.MovieUiState
-import com.skripsi.mvvm.ui.model.NewsUiState
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class MainViewModel(
-    private val getDiscoveryMovies: GetDiscoveryMovies,
     private val getLatestNews: GetLatestNews
 ) : ViewModel() {
 
-    private val _discoverMovie =
-        MutableStateFlow<Resource<Response<MovieResponse>>>(Resource.Pending)
-    val discoverMovie get() = _discoverMovie
+    private val _cnnNews =
+        MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
+    val cnnNews get() = _cnnNews
 
-    fun getDiscoveryMovie() {
-        getDiscoveryMovies(null)
+    private val _bbcNews =
+        MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
+    val bbcNews get() = _bbcNews
+
+    private val _espnNews =
+        MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
+    val espnNews get() = _espnNews
+
+    fun getCnnNews() {
+        getLatestNews("cnn")
             .onEach {
-                _discoverMovie.value = it
+                _cnnNews.value = it
             }.catch {
                 it.printStackTrace()
             }.launchIn(viewModelScope)
     }
 
-    private val _news =
-        MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
-    val news get() = _news
-
-    fun getNews() {
-        getLatestNews(null)
+    fun getBccNews() {
+        getLatestNews("bbc-news")
             .onEach {
-                _news.value = it
+                _bbcNews.value = it
+            }.catch {
+                it.printStackTrace()
+            }.launchIn(viewModelScope)
+    }
+
+    fun getEspnNews() {
+        getLatestNews("espn")
+            .onEach {
+                _espnNews.value = it
             }.catch {
                 it.printStackTrace()
             }.launchIn(viewModelScope)
