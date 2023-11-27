@@ -8,11 +8,15 @@ import retrofit2.Response
 interface MainContract {
 
     interface View {
-        fun showLatestNews(resourceData : Resource<Response<GetNewsResponse>>)
+        fun showCnnNews(resourceData : Resource<Response<GetNewsResponse>>)
+        fun showBBCNews(resourceData : Resource<Response<GetNewsResponse>>)
+        fun showESPNNews(resourceData : Resource<Response<GetNewsResponse>>)
     }
 
     interface Presenter {
-        fun fetchLatestNews(): StateFlow<Resource<Response<GetNewsResponse>>>
+        fun fetchCnnNews(): StateFlow<Resource<Response<GetNewsResponse>>>
+        fun fetchBBCNews(): StateFlow<Resource<Response<GetNewsResponse>>>
+        fun fetchESPNNews(): StateFlow<Resource<Response<GetNewsResponse>>>
     }
 
 }

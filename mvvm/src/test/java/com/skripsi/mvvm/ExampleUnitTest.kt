@@ -25,9 +25,6 @@ class ExampleUnitTest {
     fun testNotSame() {
         //akan membuat test berhasil
         // karena kedua objek tersebut tidak sama
-        val object1 = MovieUiState.Loading
-        val object2 = NewsUiState.Loading
-        assertNotSame(object1, object2)
     }
 
     @Test

@@ -11,8 +11,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/benchmark" />
             <option value="$PROJECT_DIR$/mvi" />
+            <option value="$PROJECT_DIR$/mvi/benchmark" />
             <option value="$PROJECT_DIR$/mvp" />
+            <option value="$PROJECT_DIR$/mvp/benchmark" />
             <option value="$PROJECT_DIR$/mvvm" />
             <option value="$PROJECT_DIR$/mvvm/benchmark" />
           </set>

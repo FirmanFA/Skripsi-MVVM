@@ -13,7 +13,7 @@ import com.skripsi.mvvm.data.api.model.GetNewsResponse
 
 class MainAdapter(data: List<GetNewsResponse.Article>) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
-    private val data // Replace with your actual data model
+    private val data
             : List<GetNewsResponse.Article>
 
     init {

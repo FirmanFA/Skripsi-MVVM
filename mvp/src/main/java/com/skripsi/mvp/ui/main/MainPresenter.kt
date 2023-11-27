@@ -10,12 +10,44 @@ import retrofit2.Response
 
 class MainPresenter(private val getLatestNews: GetLatestNews):ViewModel(), MainContract.Presenter {
 
-    override fun fetchLatestNews(): StateFlow<Resource<Response<GetNewsResponse>>> {
+    override fun fetchCnnNews(): StateFlow<Resource<Response<GetNewsResponse>>> {
 
         val news =
             MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
 
-        getLatestNews(null)
+        getLatestNews("cnn")
+            .onEach {
+                news.value = it
+            }.catch {
+                it.printStackTrace()
+            }.launchIn(viewModelScope)
+
+        return news
+
+    }
+
+    override fun fetchBBCNews(): StateFlow<Resource<Response<GetNewsResponse>>> {
+
+        val news =
+            MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
+
+        getLatestNews("bbc-news")
+            .onEach {
+                news.value = it
+            }.catch {
+                it.printStackTrace()
+            }.launchIn(viewModelScope)
+
+        return news
+
+    }
+
+    override fun fetchESPNNews(): StateFlow<Resource<Response<GetNewsResponse>>> {
+
+        val news =
+            MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
+
+        getLatestNews("espn")
             .onEach {
                 news.value = it
             }.catch {

@@ -9,7 +9,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://api.themoviedb.org/3/"
 private const val BASE_URL_MOVIE = "https://newsapi.org/v2/"
 val api = module {
 
@@ -21,13 +20,6 @@ val api = module {
     single {
         OkHttpClient.Builder()
             .addInterceptor(get<HttpLoggingInterceptor>())
-//            .addInterceptor {
-//                val request = it.request()
-//                val queryBuild =  request.url
-//                    .newBuilder()
-//                    .addQueryParameter("api_key","5374e8eba1107b24236cc30d17d5aa11").build()
-//                it.proceed(request.newBuilder().url(queryBuild).build())
-//            }
             .build()
     }
 

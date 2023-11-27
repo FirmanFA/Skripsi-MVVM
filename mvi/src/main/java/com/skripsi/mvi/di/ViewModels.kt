@@ -8,7 +8,6 @@ import org.koin.dsl.module
 val viewModels = module {
     viewModel {
         MainViewModel(
-            get(named("GetDiscoveryMovies")),
             get(named("GetLatestNews"))
         )
     }

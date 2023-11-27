@@ -3,47 +3,75 @@ package com.skripsi.mvi.ui.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skripsi.mvi.data.api.model.GetNewsResponse
-import com.skripsi.mvi.data.api.model.MovieResponse
-import com.skripsi.mvi.domain.Resource
-import com.skripsi.mvi.domain.usecase.GetDiscoveryMovies
 import com.skripsi.mvi.domain.usecase.GetLatestNews
-import com.skripsi.mvi.ui.base.BaseViewModel
-import com.skripsi.mvi.ui.model.MovieUiState
+import com.skripsi.mvi.ui.model.NewsIntents
 import com.skripsi.mvi.ui.model.NewsUiState
-import com.skripsi.mvi.ui.model.SingleUiState
-import com.skripsi.mvi.ui.model.UIState
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class MainViewModel(
-    private val getDiscoveryMovies: GetDiscoveryMovies,
     private val getLatestNews: GetLatestNews
-) : BaseViewModel<UIState, SingleUiState>() {
+) : ViewModel() {
 
-    override fun initUiState(): UIState = UIState(NewsUiState.Loading, MovieUiState.Loading)
+    val newsChannel = Channel<NewsIntents>(Channel.UNLIMITED)
 
+    private val _cnnNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
+    val cnnNewsState : StateFlow<NewsUiState> get() = _cnnNewsState
 
-    fun loadLatestNews(){
-        requestDataWithFlow(
-            showLoading = true,
-            request = {
-                getLatestNews(null)
-            },
-            successCallback = {
-                sendUiState {
-                    copy(newsUiState = NewsUiState.Success(it))
-                }
-            },
-            failCallback = {
-                showToast(it)
-            }
-        )
+    private val _bbcNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
+    val bbcNewsState : StateFlow<NewsUiState> get() = _bbcNewsState
+
+    private val _espnNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
+    val espnNewsState : StateFlow<NewsUiState> get() = _espnNewsState
+
+    init {
+        handleIntents()
     }
 
-    fun showToast(msg: String){
-        sendSingleUiState(SingleUiState(msg))
+    private fun handleIntents() {
+        viewModelScope.launch {
+            newsChannel.consumeAsFlow().collect{
+                when(it){
+                    NewsIntents.LatestCnnNews -> getCnnNews()
+                    NewsIntents.LatestBBCNews -> getBBCNews()
+                    NewsIntents.LatestESPNNews -> getEspnNews()
+                }
+            }
+        }
+    }
+
+    private suspend fun getCnnNews() {
+
+        Log.d("get news","get cnn news")
+
+        viewModelScope.launch {
+            getLatestNews.execute("cnn").collect {
+                _cnnNewsState.value = it
+            }
+        }
+    }
+
+    private suspend fun getBBCNews() {
+
+        Log.d("get news","get bbc news")
+
+        viewModelScope.launch {
+            getLatestNews.execute("bbc-news").collect {
+                _bbcNewsState.value = it
+            }
+        }
+    }
+
+    private suspend fun getEspnNews() {
+
+        Log.d("get news","get espn news")
+
+        viewModelScope.launch {
+            getLatestNews.execute("espn").collect {
+                _espnNewsState.value = it
+            }
+        }
     }
 
 }

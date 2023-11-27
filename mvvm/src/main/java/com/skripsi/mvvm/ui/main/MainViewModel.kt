@@ -3,9 +3,7 @@ package com.skripsi.mvvm.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skripsi.mvvm.data.api.model.GetNewsResponse
-import com.skripsi.mvvm.data.api.model.MovieResponse
 import com.skripsi.mvvm.domain.Resource
-import com.skripsi.mvvm.domain.usecase.GetDiscoveryMovies
 import com.skripsi.mvvm.domain.usecase.GetLatestNews
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
