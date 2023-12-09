@@ -1,17 +1,9 @@
 package com.skripsi.mvvm
 
-import com.skripsi.mvvm.ui.model.MovieUiState
-import com.skripsi.mvvm.ui.model.NewsUiState
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotSame
 import org.junit.Test
 import kotlin.test.assertTrue
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 class ExampleUnitTest {
 
     @Test

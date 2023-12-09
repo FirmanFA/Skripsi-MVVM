@@ -29,10 +29,12 @@ class MVIBenchmark {
     fun startup() = benchmarkRule.measureRepeated(
         packageName = "com.skripsi.mvi",
         metrics = listOf(StartupTimingMetric()),
-        iterations = 5,
-        startupMode = StartupMode.COLD
+        iterations = 10,
+        startupMode = StartupMode.COLD,
+        setupBlock = {
+            pressHome()
+        }
     ) {
-        pressHome()
         startActivityAndWait()
     }
 }
