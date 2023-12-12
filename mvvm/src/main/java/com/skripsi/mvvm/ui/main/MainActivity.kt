@@ -31,12 +31,9 @@ class MainActivity : AppCompatActivity() {
                         it.e.localizedMessage,
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.d("failed", it.e.localizedMessage?.toString() ?: "")
                 }
                 is Resource.Pending -> Toast.makeText(this, "pending", Toast.LENGTH_SHORT).show()
                 is Resource.Success -> {
-//                    binding.tvTesting.text = it.data?.body()?.articles.toString()
-
                     val adapter = it.data?.body()?.articles?.let { it1 -> MainAdapter(it1) }
 
                     binding.rvNewsCnn.adapter = adapter

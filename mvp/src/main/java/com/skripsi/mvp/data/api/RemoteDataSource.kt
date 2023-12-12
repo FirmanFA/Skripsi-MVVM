@@ -10,7 +10,7 @@ class RemoteDataSource(
 
     fun latestNews(source: String) = flow {
         while (true){
-            val latestNews = apiService.latestCnnNews(newsSource = source)
+            val latestNews = apiService.latestNews(newsSource = source)
             emit(Resource.Success(latestNews))
             delay(30000)
         }

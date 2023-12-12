@@ -14,21 +14,19 @@ class MainViewModel(
     private val getLatestNews: GetLatestNews
 ) : ViewModel() {
 
-    val newsChannel = Channel<NewsIntents>(Channel.UNLIMITED)
-
-    private val _cnnNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
-    val cnnNewsState : StateFlow<NewsUiState> get() = _cnnNewsState
-
     private val _bbcNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
     val bbcNewsState : StateFlow<NewsUiState> get() = _bbcNewsState
 
     private val _espnNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
     val espnNewsState : StateFlow<NewsUiState> get() = _espnNewsState
 
+    val newsChannel = Channel<NewsIntents>(Channel.UNLIMITED)
+
+    private val _cnnNewsState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
+    val cnnNewsState : StateFlow<NewsUiState> get() = _cnnNewsState
     init {
         handleIntents()
     }
-
     private fun handleIntents() {
         viewModelScope.launch {
             newsChannel.consumeAsFlow().collect{
@@ -40,11 +38,7 @@ class MainViewModel(
             }
         }
     }
-
     private suspend fun getCnnNews() {
-
-        Log.d("get news","get cnn news")
-
         viewModelScope.launch {
             getLatestNews.execute("cnn").collect {
                 _cnnNewsState.value = it
