@@ -1,33 +1,28 @@
-package com.skripsi.mvvm.ui.main
+package com.skripsi.mvp.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.skripsi.mvvm.data.api.model.GetNewsResponse
-import com.skripsi.mvvm.domain.Resource
-import com.skripsi.mvvm.domain.usecase.GetLatestNews
-import com.skripsi.mvvm.repository.MainRepository
-import com.skripsi.mvvm.rule.MainCoroutineRule
+import com.skripsi.mvp.data.api.model.GetNewsResponse
+import com.skripsi.mvp.domain.Resource
+import com.skripsi.mvp.domain.usecase.GetLatestNews
+import com.skripsi.mvp.rule.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Rule
+
 import org.junit.Test
 import org.junit.rules.TestRule
-import org.mockito.Mockito
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
 import retrofit2.Response
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class MainViewModelTest {
+class MainPresenterTest {
 
     private lateinit var getLatestNews: GetLatestNews
-    private lateinit var viewModel: MainViewModel
+    private lateinit var presenter: MainPresenter
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -40,10 +35,11 @@ class MainViewModelTest {
     @Before
     fun setUp() {
         getLatestNews = mock()
-        viewModel = MainViewModel(getLatestNews)
+        presenter = MainPresenter(getLatestNews)
     }
 
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getCnnNews() = runTest {
 
@@ -51,14 +47,15 @@ class MainViewModelTest {
 
         given(getLatestNews.execute("cnn")).willReturn(cnnNewsResponse)
 
-        viewModel.getCnnNews()
+        val data = presenter.fetchCnnNews()
 
         advanceUntilIdle()
 
-        kotlin.test.assertNotNull(viewModel.cnnNews.value)
+        kotlin.test.assertNotNull(data.value)
 
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getBbcNews() = runTest {
 
@@ -66,14 +63,15 @@ class MainViewModelTest {
 
         given(getLatestNews.execute("bbc-news")).willReturn(bbcNewsResponse)
 
-        viewModel.getBccNews()
+        val data = presenter.fetchBBCNews()
 
         advanceUntilIdle()
 
-        kotlin.test.assertNotNull(viewModel.bbcNews.value)
+        kotlin.test.assertNotNull(data.value)
 
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getEspnNews() = runTest {
 
@@ -81,11 +79,11 @@ class MainViewModelTest {
 
         given(getLatestNews.execute("espn")).willReturn(espnNewsResponse)
 
-        viewModel.getEspnNews()
+        val data = presenter.fetchESPNNews()
 
         advanceUntilIdle()
 
-        kotlin.test.assertNotNull(viewModel.espnNews.value)
+        kotlin.test.assertNotNull(data.value)
 
     }
 }

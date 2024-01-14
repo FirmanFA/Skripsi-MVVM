@@ -20,6 +20,9 @@ class MainViewModel(
         MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
     val espnNews get() = _espnNews
 
+    private val _cnnNews =
+        MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
+    val cnnNews get() = _cnnNews
     fun getCnnNews() {
         getLatestNews("cnn")
             .onEach {
@@ -29,9 +32,7 @@ class MainViewModel(
             }.launchIn(viewModelScope)
     }
 
-    private val _cnnNews =
-        MutableStateFlow<Resource<Response<GetNewsResponse>>>(Resource.Pending)
-    val cnnNews get() = _cnnNews
+
 
     fun getBccNews() {
         getLatestNews("bbc-news")
